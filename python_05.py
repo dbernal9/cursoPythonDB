@@ -1,4 +1,4 @@
-"""1. Pide al usuario dos variables a = 12.5 y b = 34, crea funciones que permitan calcular la suma, resta,
+"""1. Pide al usuario dos variables a = 12 y b = 34, crea funciones que permitan calcular la suma, resta,
 multiplicación y división, como también el valor del módulo de b entre a"""
 
 def suma(numA, numB):
@@ -39,4 +39,21 @@ def celcius2fahrenheit(temperature):
 Temperatura = int(input("Ingresa los grados Celcius a convertir: "))
 print("Esta es la temperatura en Fahrenheit: ", celcius2fahrenheit(Temperatura))
 
+
+########################################################################################################################
+"""Escribe una función llamada "es_par" que tome un número entero como parámetro y devuelva True si el 
+número es par o False si el número es impar.
+Luego, escribe un programa que pida al usuario que introduzca un número entero y 
+utilice la función "es_par" para determinar si el número es par o impar. Imprime en pantalla un 
+mensaje indicando si el número es par o impar."""
+
+
+def es_par(num):
+    return num%2
+
+numero_nuevo = int(input("Dame un numero para ver si es par o no: "))
+if (es_par(numero_nuevo)==0):
+    print("Tu número es par")
+else:
+    print("Tu número es impar")
 
