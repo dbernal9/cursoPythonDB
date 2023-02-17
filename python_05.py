@@ -1,7 +1,7 @@
 """1. Pide al usuario dos variables a = 12 y b = 34, crea funciones que permitan calcular la suma, resta,
 multiplicación y división, como también el valor del módulo de b entre a"""
 
-def suma(numA, numB):
+def suma(numA: int, numB: int):
     return (numA+numB)
 def resta(numA: int, numB: int):
     return numA-numB
