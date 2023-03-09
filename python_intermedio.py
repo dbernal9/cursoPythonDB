@@ -33,27 +33,30 @@ def altaCurso():
         "Lecciones": numberOfLessons,
         "CursoActivo": courseActive
     }
+    print("\n")
     return newCourse
 
 def verTodosCursos():
+    print("Estos son los cursos disponibles\n")
     for course in availableCourses:
         pretty = json.dumps(course, indent=4, sort_keys=False)
         print(pretty)
-def verCurso(nombrecurso):
+
+def verCurso():
+    cursoaver = input("Cuál curso quiere ver? ")
     for course in availableCourses:
         tmpname = course.get('NombreDelCurso')
-        if tmpname == nombrecurso:
+        if tmpname == cursoaver:
             pretty = json.dumps(course, indent=4, sort_keys=False)
             print(pretty)
         else:
             continue
-    else:
-        print("El curso no existe")
 
-def editarCurso(nombrecurso):
+def editarCurso():
+    cursoaeditar = input("Cuál curso quiere editar? ")
     for course in availableCourses:
         tmpname = course.get("NombreDelCurso")
-        if tmpname == nombrecurso:
+        if tmpname == cursoaeditar:
             numberOfStudents = course.get("EstudiantesInscritos")
             numberOfLessons = course.get("Lecciones")
             courseActive = course.get("CursoActivo")
@@ -72,7 +75,8 @@ def editarCurso(nombrecurso):
                 "CursoActivo": courseActive
             }
             course.update(editedcourse)
-            print(course)
+            pretty = json.dumps(course, indent=4, sort_keys=False)
+            print(pretty)
         else:
             continue
 
@@ -91,10 +95,7 @@ while numberOfNewCourses > 0:
     availableCourses.append(altaCurso())
     numberOfNewCourses -= 1
 
-print("*"*50)
-print("\n")
-#verTodosCursos()
-#cursoaver = input("Cuál curso quiere ver? ")
-#verCurso(nombredelcurso)
-cursoaeditar = input("Cuál curso quiere editar? ")
-editarCurso(cursoaeditar)
+
+verTodosCursos()
+verCurso()
+editarCurso()
