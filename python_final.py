@@ -78,16 +78,18 @@ def alta():
 
 def buscar_jugador():
     if len(JUGADORES) % 2 == 0:
-        for jugador1, jugador2 in JUGADORES:
-            j1_status = jugador1.obtener_estado()
-            j1_partidas = jugador1.obtener_partidas()
-            print(f"Jugador uno: {j1_status}{j1_partidas}")
-            j2_status = jugador2.obtener_estado()
-            j2_partidas = jugador2.obtener_partidas()
-            print(f"Jugador uno: {j2_status}{j2_partidas}")
+        for jugador1 in JUGADORES:
+        #for jugador1 in range(len(JUGADORES)):
+            #for jugador2 in range(jugador1+1,len(JUGADORES)):
+                j1_status = jugador1.obtener_estado()
+                j1_partidas = jugador1.obtener_partidas()
+                print(f"Jugador uno: (ESTADO: {j1_status}, PARTIDAS: {j1_partidas}")
+               """ j2_status = jugador2.obtener_estado()
+                j2_partidas = jugador2.obtener_partidas()
+                print(f"Jugador DOS: (ESTADO: {j2_status}, PARTIDAS: {j2_partidas}")"""
 
-            if j1_status == j2_status and j1_partidas == j2_partidas:
-                print("Partida generada")
+            #if j1_status == j2_status and j1_partidas == j2_partidas:
+              #  print("Partida generada")
                 #jugador.actualizar_partidas()
                 #print(f"Jugador Uno Encontrado: {jugador}")
     else:
