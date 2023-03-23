@@ -77,23 +77,23 @@ def alta():
         #print("El número de jugadores debe ser par")
 
 def buscar_jugador():
+    partidaslst =[]
+    estadoslst = []
+    found_pair = False
     if len(JUGADORES) % 2 == 0:
-        for jugador1 in JUGADORES:
-        #for jugador1 in range(len(JUGADORES)):
-            #for jugador2 in range(jugador1+1,len(JUGADORES)):
-                j1_status = jugador1.obtener_estado()
-                j1_partidas = jugador1.obtener_partidas()
-                print(f"Jugador uno: (ESTADO: {j1_status}, PARTIDAS: {j1_partidas}")
-               """ j2_status = jugador2.obtener_estado()
-                j2_partidas = jugador2.obtener_partidas()
-                print(f"Jugador DOS: (ESTADO: {j2_status}, PARTIDAS: {j2_partidas}")"""
-
-            #if j1_status == j2_status and j1_partidas == j2_partidas:
-              #  print("Partida generada")
-                #jugador.actualizar_partidas()
-                #print(f"Jugador Uno Encontrado: {jugador}")
+        for jugador in JUGADORES:
+            partidaslst.append(jugador.obtener_partidas())
+            estadoslst.append(jugador.obtener_estado())
     else:
         print("No se puede generar partida con un numero de participantes impar")
+    for index,(stat,part) in enumerate(zip(partidaslst,estadoslst)):
+        if stat == "Estado.ACTIVO" and partidaslst.count(part) == 2 and not found_pair:
+            indices = [i for i, x in enumerate(partidaslst) if x == b]
+            if index in indices:
+                indices.remove(index)
+            print("Partida generada")
+            found_pair = True
+
 def generar_partida():
     buscar_jugador()
     """imprimir_header("Generando Partida")
@@ -111,7 +111,7 @@ JUGADORES = []
 
 MENU = {
     "alta": alta,
-    "generar partida": generar_partida,
+    "partida": generar_partida,
     #"mostrar resultados": mostrar_todos,
     "salir":salir,
 }
