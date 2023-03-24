@@ -11,16 +11,9 @@ import random
 ##########################################################################################
 # ABSTRACIONES DEL JUGADOR
 ##########################################################################################
-class Estado(Enum):
-    ACTIVO = 1
-    INACTIVO = 2
 
-class Raza(Enum):
-    TERRAN = 1
-    ZERG = 2
-    PROTOSS = 3
 class Jugador:
-    def __init__(self, nombre: str, apellido: str, mail: str, estado: Estado, raza: Raza):
+    def __init__(self, nombre: str, apellido: str, mail: str, estado: str, raza: str):
         self.__nombre = nombre
         self.__apellido = apellido
         self.__raza = raza
@@ -29,21 +22,24 @@ class Jugador:
         self.__partidas = 0
         self.__puntos = 0
 
+    def obtener_nombre(self):
+        return self.__nombre
+    def obtener_apellido(self):
+        return self.__apellido
+    def obtener_raza(self):
+        return self.__raza
     def obtener_estado(self):
         return self.__estado
     def obtener_partidas(self):
         return self.__partidas
     def obtener_puntos(self):
         return self.__puntos
+    def actualizar_puntos(self, puntos: int):
+        self.__puntos += puntos
     def actualizar_partidas(self):
         self.__partidas += 1
-    def actualizar_partidas(self, estado: str, resultado: str):
-        self.__estado = "INACTIVO"
-        self.__partidas += 1
-        if resultado == "win":
-            self.__puntos += 3
-        else:
-            self.__puntos += 1
+    def actualizar_estado(self):
+        self.__estado = "Inactivo"
 
     def __str__(self):
         return repr(self)
@@ -68,39 +64,77 @@ def alta():
         nombre = input("Nombre? ")
         apellido = input("Apellido? ")
         mail = input("Mail? ")
-        estado = "ACTIVO"
-        raza = input("Raza? TERRAN | ZERG | PROTOSS ")
-        jugador = Jugador(nombre, apellido, mail, Estado[estado], Raza[raza])
+        estado = "Activo"
+        raza = input("Raza? Terran | Zerg | Protoss ")
+        jugador = Jugador(nombre, apellido, mail, estado, raza)
         JUGADORES.append(jugador)
         print(f"Jugador registrado: {jugador}")
+
    # else:
         #print("El número de jugadores debe ser par")
 
-def buscar_jugador():
-    partidaslst =[]
-    estadoslst = []
-    found_pair = False
-    if len(JUGADORES) % 2 == 0:
-        for jugador in JUGADORES:
-            partidaslst.append(jugador.obtener_partidas())
-            estadoslst.append(jugador.obtener_estado())
-    else:
-        print("No se puede generar partida con un numero de participantes impar")
-    for index,(stat,part) in enumerate(zip(partidaslst,estadoslst)):
-        if stat == "Estado.ACTIVO" and partidaslst.count(part) == 2 and not found_pair:
-            indices = [i for i, x in enumerate(partidaslst) if x == b]
-            if index in indices:
-                indices.remove(index)
-            print("Partida generada")
-            found_pair = True
+def jugar_partida(players: list, activos: list):
+    jugadorespartida = players
+    jugadoresactivos = activos
+
+    if len(jugadoresactivos) < 2:
+        return True
+def obtener_ganador():
+    print(f"{40 * '='} TORNEO FINALIZADO {40 * '='}")
+    print(f"Lista de jugadores\n{JUGADORES}")
+    for ganador in JUGADORES:
+        if ganador.obtener_estado() == "Activo":
+            print(f"Y el ganador es:\n{ganador.obtener_nombre()} {ganador.obtener_apellido()} "
+                  f"Puntos: {ganador.obtener_puntos()}")
 
 def generar_partida():
-    buscar_jugador()
-    """imprimir_header("Generando Partida")
-    for index, jugador in enumerate(JUGADORES):
-        if jugador.obtener_estado() == Estado["ACTIVO"]:
-            print({f"{index}) {jugador}"})"""
+    import random
+    #Buscando jugadores
+    jugadoresactivos = []
+    for jugador in JUGADORES:
+        if jugador.obtener_estado() == "Activo":
+            jugadoresactivos.append(jugador)
+    # print("Jugadores activos")
+    # print(jugadoresactivos)
+    for i in range(len(JUGADORES) + 1):
+        foundpair = False
+        while not foundpair:
+            jugadorespartida = random.sample(jugadoresactivos, 2)
+            if jugadorespartida[0].obtener_partidas() == jugadorespartida[1].obtener_partidas():
+                foundpair = True
+        print(f"{40 * '='} Partida generada {40 * '='}")
+        randomwin = random.randint(0, 1)
 
+        if randomwin == 0:
+            jugadorespartida[0].actualizar_partidas()  # Ganó jugador 1, sumar partida
+            jugadorespartida[0].actualizar_puntos(3)  # Ganó jugador 1, sumar 3 puntos
+            jugadorespartida[1].actualizar_partidas()  # Perdió jugador 2, sumar partida
+            jugadorespartida[1].actualizar_puntos(1)  # Perdió jugador 2, sumar 1 punto
+            jugadorespartida[1].actualizar_estado()  # Perdió jugador 2, cambiar a inactivo
+            for index, j in enumerate(jugadoresactivos):
+                if jugadoresactivos[index] == jugadorespartida[1]:
+                    print(f"Jugador eliminado :\n {jugadoresactivos.pop(index)}")
+
+        else:
+            jugadorespartida[1].actualizar_partidas()  # Ganó jugador 1, sumar partida
+            jugadorespartida[1].actualizar_puntos(3)  # Ganó jugador 1, sumar 3 puntos
+            jugadorespartida[0].actualizar_partidas()  # Perdió jugador 2, sumar partida
+            jugadorespartida[0].actualizar_puntos(1)  # Perdió jugador 2, sumar 1 punto
+            jugadorespartida[0].actualizar_estado()  # Perdió jugador 2, cambiar a inactivo
+            for index, j in enumerate(jugadoresactivos):
+                if jugadoresactivos[index] == jugadorespartida[0]:
+                    print(f"Jugador eliminado :\n{jugadoresactivos.pop(index)}")
+        if len(jugadoresactivos) < 2:
+            print(f"{40 * '='} TORNEO FINALIZADO {40 * '='}")
+            break
+    obtener_ganador()
+def mostrar_resultados():
+    print(f"{40 * '='} RESULTADOS {40 * '='}")
+    if len(JUGADORES) > 0:
+        for index, jug in enumerate(JUGADORES):
+            print(f"Jugador {index} {jug.obtener_nombre()} {jug.obtener_apellido()} Puntos: {jug.obtener_puntos()}")
+    else:
+        print("No hay jugadores registrados")
 
 
 
@@ -112,8 +146,8 @@ JUGADORES = []
 MENU = {
     "alta": alta,
     "partida": generar_partida,
-    #"mostrar resultados": mostrar_todos,
-    "salir":salir,
+    "resultados": mostrar_resultados,
+    "salir": salir,
 }
 
 OPTIONS = ' | '.join(MENU.keys())
